@@ -7,6 +7,15 @@
     - name: Set system's hostname.
       hostname:
         name: lb.example.local
+        
+    - name: enable ipv4 routing
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: yes
+
+    - name: install keepalived
+      yum: name=keepalived state=latest
 
     - name: Copying configuration file for network interface.
       template:
