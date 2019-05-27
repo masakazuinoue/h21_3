@@ -63,6 +63,9 @@
 
     - name: Start & Enabled MySQL
       systemd: name=mysqld state=started enabled=true
+      
+    - name: Start & Enabled Apache
+      systemd: name=httpd state=started enabled=true
 
     - name: get temporary password
       shell: cat /var/log/mysqld.log | grep "temporary password" | awk '{print $11}'
