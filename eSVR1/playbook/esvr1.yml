@@ -102,7 +102,7 @@
          --adminuser=root
          --adminpass=root
          --adminemail=root@example.local
-         --agree-license
+         --agree-license;
         chown -R apache:apache /var/www/html;
 
     - name: Copying configuration file for network interface.
