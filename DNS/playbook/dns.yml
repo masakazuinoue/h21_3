@@ -1,0 +1,46 @@
+- hosts: all
+  user: vagrant
+  become: yes
+  vars:
+    config_path: '/vagrant'
+  tasks:
+    - name: Set system's hostname.
+      hostname:
+        name: dns.example.local
+
+    - name: installig DNS server.
+      yum: name="{{ item }}" state=latest
+      with_items:
+        - bind
+        - bind-utils
+
+    - name: Copying configuration file for DNS server.
+      template:
+        src: "{{ files.src }}"
+        dest: "{{ files.dest }}"
+        backup: yes
+        owner: named
+        group: named
+      vars:
+        files:
+          - { src: "{{ config_path }}/named/named.conf.j2", dest: /etc/named.conf }
+          - { src: "{{ config_path }}/named/young0.org.zone.j2", dest: /var/named/example.local.zone }
+
+    - name: Copying configuration file for network interface.
+      template:
+        src: "{{ config_path }}/network/ifcfg-enp0s8.j2"
+        dest: /etc/sysconfig/network-scripts/ifcfg-enp0s8
+
+    - name: Modify to default network interface.
+      lineinfile:
+        dest: /etc/sysconfig/network-scripts/ifcfg-enp0s3
+        regexp: 'DEFROUTE="yes"'
+        line: 'DEFROUTE="no"'
+
+    - name: Restart service for networking. 
+      systemd: name=network state=restarted 
+
+    - name: enbale & start service for DNS Server 
+      systemd: name=named state=started enabled=true      
+
+
