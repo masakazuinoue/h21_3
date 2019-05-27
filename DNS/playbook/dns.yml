@@ -16,15 +16,14 @@
 
     - name: Copying configuration file for DNS server.
       template:
-        src: "{{ files.src }}"
-        dest: "{{ files.dest }}"
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
         backup: yes
         owner: named
         group: named
-      vars:
-        files:
-          - { src: "{{ config_path }}/named/named.conf.j2", dest: /etc/named.conf }
-          - { src: "{{ config_path }}/named/young0.org.zone.j2", dest: /var/named/example.local.zone }
+      with_items:
+        - { src: "{{ config_path }}/named/named.conf.j2", dest: /etc/named.conf }
+        - { src: "{{ config_path }}/named/example.local.zone.j2", dest: /var/named/example.local.zone }
 
     - name: Copying configuration file for network interface.
       template:
