@@ -17,6 +17,9 @@
     - name: install keepalived
       yum: name=keepalived state=latest
 
+    - name: install ipvsadm
+      yum: name=ipvsadm state=latest
+
     - name: Copying configuration file for network interface.
       template:
         src: "{{ config_path }}/network/ifcfg-enp0s8.j2"
