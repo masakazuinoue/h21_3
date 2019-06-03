@@ -28,5 +28,5 @@
     - name: Modify to default network interface.
       lineinfile:
         dest: /etc/sysconfig/network-scripts/ifcfg-enp0s3
-        regexp: 'DEFROUTE="yes"'
+        regexp: 'DEFROUTE='
         line: 'DEFROUTE="no"'
