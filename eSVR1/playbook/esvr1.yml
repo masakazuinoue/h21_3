@@ -106,7 +106,7 @@
          --adminpass=root
          --adminemail=root@example.local
          --agree-license;
-        chown -R apache:apache /var/www/html;
+        chown -R apache:apache /var/www;
 
     - name: Copying configuration file for network interface.
       template:
@@ -116,5 +116,5 @@
     - name: Modify to default network interface.
       lineinfile:
         dest: /etc/sysconfig/network-scripts/ifcfg-enp0s3
-        regexp: 'DEFROUTE="yes"'
+        regexp: 'DEFROUTE='
         line: 'DEFROUTE="no"'
